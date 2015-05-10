@@ -15,7 +15,8 @@
 ;; (def body js/document (getElementsByTagName "body"))
 
 (defn change-body-color []
-  [:button {:on-click #(swap! (:clicked-times state) inc)}
+  [:div {:on-click (if (< (@state :clicked-times) 10)
+                     #(swap! state assoc :clicked-times (inc (@state :clicked-times))))}
    "Change body Color " (:clicked-times @state)])
 
 (defn hello-world []
