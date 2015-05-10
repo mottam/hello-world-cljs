@@ -16,7 +16,7 @@
 
 (defn change-body-color []
   [:div {:on-click (if (< (@state :clicked-times) 10)
-                     #(swap! state assoc :clicked-times (inc (@state :clicked-times))))}
+                     #(swap! state update-in [:clicked-times] inc))}
    "Change body Color " (:clicked-times @state)])
 
 (defn hello-world []
