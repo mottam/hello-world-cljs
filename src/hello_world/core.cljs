@@ -17,7 +17,7 @@
   (do
     (swap! state assoc :color (nth colors (rand-int 4)))
     (set! (.-backgroundColor (.-style (.-body js/document))) (str (@state :color)))
-    #(swap! state update-in [:clicked-times] inc))
+    #(swap! state update-in [:clicked-times] inc))          ;;what is this # for?
   ;; Why can't I put the 'set!' on the last position? (button disappears!)
   )
 
