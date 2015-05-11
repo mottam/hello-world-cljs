@@ -4,20 +4,33 @@
 
 (enable-console-print!)
 
-(println "Edits to this text should show up in your developer console.")
-
 ;; define your app data so that it doesn't get over-written on reload
 
 (defonce app-state (atom {:text "Hello world!"}))
 (def state (atom {:clicked-times 0
-                  :color "#ff0000"}))
+                  :color "white"}))
 
-;; (def body js/document (getElementsByTagName "body"))
+
+(def colors ["white" "red" "blue" "black" "yellow"])
+
+(defn swap-values []
+  (do
+    (swap! state assoc :color (nth colors (rand-int 4)))
+    (set! (.-backgroundColor (.-style (.-body js/document))) (str (@state :color)))
+    #(swap! state update-in [:clicked-times] inc))
+  ;; Why can't I put the 'set!' on the last position? (button disappears!)
+  )
+
+(defn change-color []
+  (if (< (@state :clicked-times) 10)
+    (swap-values)))
 
 (defn change-body-color []
-  [:div {:on-click (if (< (@state :clicked-times) 10)
-                     #(swap! state update-in [:clicked-times] inc))}
-   "Change body Color " (:clicked-times @state)])
+  [:button {:on-click (change-color)}
+   "Change body Color " (:color @state)]
+  )
+
+
 
 (defn hello-world []
   [:h1 (:text @app-state)])
